@@ -3,7 +3,7 @@ import 'contact_screen.dart';
 
 class HomeScreen extends StatelessWidget {
 
-  final String username = "John";
+  final String username = "Punith";
 
   @override
   Widget build(BuildContext context) {
