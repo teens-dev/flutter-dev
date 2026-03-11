@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:navigation/About.dart';
 import 'package:navigation/Home.dart';
+import 'package:navigation/Registrationform.dart';
+import 'package:navigation/To-Do.dart';
 import 'package:navigation/contact.dart';
 import 'package:navigation/Profile.dart';
 
@@ -13,8 +15,7 @@ class MyApp extends StatelessWidget {
   final String email="gapagarilokesh56@gmail.com";
   final int age=23;
   const MyApp({super.key});
-
-  // This widget is the root of your application.
+  //This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
 
       ),
-      home:MainScreen(username: username,email: email,age: age,),
+      home:Registrationform()
     );
   }
 }
@@ -70,7 +71,7 @@ class _MainScreenState extends State<MainScreen> {
               title: Text('Home'),
               onTap: (){
                 setState(() {
-                  currentIndex =0;
+                   currentIndex =0;
                 });
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Welcom to the HomeScreen ${widget.username}"),duration: Duration(seconds: 2),));

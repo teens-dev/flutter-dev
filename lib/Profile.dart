@@ -10,5 +10,5 @@ class ProfileScreen extends StatelessWidget {
     return Center(
       child: Text("profile ${username}\nemail : ${email}\nage: ${age}"),
     );;
-  }
+   }
 }
