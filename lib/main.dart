@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:navigation/About.dart';
 import 'package:navigation/Home.dart';
+import 'package:navigation/Listview.dart';
+import 'package:navigation/Movies.dart';
+import 'package:navigation/MoviesList.dart';
 import 'package:navigation/Registrationform.dart';
 import 'package:navigation/To-Do.dart';
 import 'package:navigation/contact.dart';
@@ -25,7 +28,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
 
       ),
-      home:Registrationform()
+      home:Movieslist()
     );
   }
 }

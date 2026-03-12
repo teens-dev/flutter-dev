@@ -32,31 +32,31 @@ class _TodoState extends State<Todo> {
       tasks[index]['isDone']=!tasks[index]['isDone'];
     });
   }
-@override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(backgroundColor: Colors.lightBlue,centerTitle:true,title:Text('To-Do-App' ,style: TextStyle(fontWeight: FontWeight.w900,)),
-    ),
+      ),
       body:Column(
         //mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Padding(padding: EdgeInsetsGeometry.all(29),
-          child:Row(
-            children: [
-              Expanded(
-                child: TextField(
-                  controller: _taskController,
-                  decoration: InputDecoration(
-                    hintText: 'Enter a task',
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(40)),
+            child:Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    controller: _taskController,
+                    decoration: InputDecoration(
+                      hintText: 'Enter a task',
+                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(40)),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(width: 10),
-              ElevatedButton(onPressed: _addtasks, child: Text('Add')),
-            ],
+                SizedBox(width: 10),
+                ElevatedButton(onPressed: _addtasks, child: Text('Add')),
+              ],
 
-          ),
+            ),
           ),
           Expanded(child:tasks.isEmpty?Center(child: Text('No tasks added yet')):ListView.builder(itemCount: tasks.length,itemBuilder: (context,index){
             return Card(
@@ -67,7 +67,7 @@ class _TodoState extends State<Todo> {
                     setState(() {
                       tasks[index]['isDone'] = value!;
                     });
-              },
+                  },
                 ),
                 title: Text(tasks[index]["title"]),
                 trailing: IconButton(onPressed: ()=>_deletetasks(index), icon: Icon(Icons.delete,color: Colors.red,)),
