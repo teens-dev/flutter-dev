@@ -12,7 +12,7 @@ class _MovieslistState extends State<Movieslist> {
     {
       "name": "Inception",
       "rating": "8.8",
-      "description": "A thief steals secrets through dream technology.",
+      "description": "A thief steals secrets thrLough dream technology.",
       "image": "https://picsum.photos/400/200?1"
     },
     {

@@ -8,6 +8,8 @@ import 'package:navigation/Registrationform.dart';
 import 'package:navigation/To-Do.dart';
 import 'package:navigation/contact.dart';
 import 'package:navigation/Profile.dart';
+import 'package:navigation/posts1_screen.dart';
+import 'package:navigation/posts_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
 
       ),
-      home:Movieslist()
+      home:Posts1Screen()
     );
   }
 }
