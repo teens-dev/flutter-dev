@@ -8,6 +8,7 @@ import 'package:navigation/Registrationform.dart';
 import 'package:navigation/To-Do.dart';
 import 'package:navigation/contact.dart';
 import 'package:navigation/Profile.dart';
+import 'package:navigation/photo_grid.dart';
 import 'package:navigation/posts1_screen.dart';
 import 'package:navigation/posts_screen.dart';
 
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
 
       ),
-      home:Posts1Screen()
+      home:PhotoGridScreen()
     );
   }
 }

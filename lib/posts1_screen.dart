@@ -1,6 +1,24 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:navigation/ProductDetails.dart';
+import 'package:navigation/photo_grid.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home:Posts1Screen(),
+    );
+  }
+}
 
 class Posts1Screen extends StatefulWidget {
   const Posts1Screen({super.key});
@@ -12,6 +30,7 @@ class Posts1Screen extends StatefulWidget {
 class _Posts1ScreenState extends State<Posts1Screen> {
 
   late Future<List<Product>> futureProducts;
+  String searchQuery = "";
 
   @override
   void initState() {
@@ -21,14 +40,9 @@ class _Posts1ScreenState extends State<Posts1Screen> {
 
   Future<List<Product>> fetchProducts() async {
 
-    final response =
-    await http.get(Uri.parse("https://dummyjson.com/products"),
-      headers: {
-      "Content-Type": "application/json",
-      },
+    final response = await http.get(
+      Uri.parse("https://dummyjson.com/products"),
     );
-    print(response.statusCode);
-    print(response.body);
 
     if (response.statusCode == 200) {
 
@@ -47,59 +61,112 @@ class _Posts1ScreenState extends State<Posts1Screen> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+
       appBar: AppBar(
-        backgroundColor: Colors.amber,
-        title: const Text(
-          'Products',
-          style: TextStyle(fontWeight: FontWeight.w800),
-        ),
+        backgroundColor: Colors.amber,centerTitle: true,
+        title: const Text("Products",style: TextStyle(fontWeight: FontWeight.w800),),
       ),
 
-      body: FutureBuilder<List<Product>>(
-        future: futureProducts,
+      body: Column(
+        children: [
 
-        builder: (context, snapshot) {
+          // SEARCH BAR
+          Padding(
+            padding: const EdgeInsets.all(10),
+            child: TextField(
 
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
+              onChanged: (value) {
+                setState(() {
+                  searchQuery = value;
+                });
+              },
 
-          if (snapshot.hasError) {
-            return const Center(child: Text("Error loading data"));
-          }
+              decoration: InputDecoration(
+                hintText: "Search products...",
+                prefixIcon: const Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            child: FutureBuilder<List<Product>>(
 
-          if (snapshot.hasData) {
+              future: futureProducts,
 
-            return ListView.builder(
-              itemCount: snapshot.data!.length,
+              builder: (context, snapshot) {
 
-              itemBuilder: (context, index) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
 
-                final product = snapshot.data![index];
+                if (snapshot.hasError) {
+                  return const Center(
+                    child: Text("Error loading data"),
+                  );
+                }
 
-                return Card(
-                  margin: const EdgeInsets.all(10),
+                if (snapshot.hasData) {
 
-                  child: ListTile(
+                  // FILTER PRODUCTS
+                  final filteredProducts = snapshot.data!
+                      .where((product) => product.title
+                      .toLowerCase()
+                      .contains(searchQuery.toLowerCase()))
+                      .toList();
 
-                    leading: Image.network(
-                      product.thumbnail,
-                      width: 60,
-                      fit: BoxFit.cover,
-                    ),
+                  return ListView.builder(
 
-                    title: Text(product.title),
+                    itemCount: filteredProducts.length,
 
-                    subtitle: Text("Price: \$${product.price}"),
+                    itemBuilder: (context, index) {
 
-                  ),
+                      final product = filteredProducts[index];
+
+                      return GestureDetector(
+
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Productdetails(
+                                product: product,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Card(
+                          margin: const EdgeInsets.all(10),
+
+                          child: ListTile(
+
+                            leading: Image.network(
+                              product.thumbnail,
+                              width: 60,
+                              fit: BoxFit.cover,
+                            ),
+                            title: Text(product.title),
+                            subtitle: Text(
+                              "Price: \$${product.price}",
+                            ),
+
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
+
+                return const Center(
+                  child: Text("No Data"),
                 );
               },
-            );
-          }
-
-          return const Center(child: Text("No Data"));
-        },
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -111,12 +178,16 @@ class Product {
   final String title;
   final double price;
   final String thumbnail;
+  final String description;
+  final double rating;
 
   Product({
     required this.id,
     required this.title,
     required this.price,
     required this.thumbnail,
+    required this.description,
+    required this.rating,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -126,6 +197,8 @@ class Product {
       title: json['title'],
       price: json['price'].toDouble(),
       thumbnail: json['thumbnail'],
+      description: json['description'],
+      rating: json['rating'].toDouble(),
     );
   }
 }
