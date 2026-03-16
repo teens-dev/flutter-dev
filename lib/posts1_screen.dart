@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:navigation/ProductDetails.dart';
+import 'package:navigation/local_storage.dart';
 import 'package:navigation/photo_grid.dart';
 
 void main() {
